@@ -1,0 +1,107 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+int add(int a, int b);
+int subtract(int a, int b);
+int multiply(int a, int b);
+double divide(int a, int b);
+double sine(double x);
+double cosine(double x);
+double tangent(double x);
+
+int main() {
+    int choice;
+    double num1, num2;
+
+    cout << "Scientific Calculator" << endl;
+    cout << "1. Addition\n";
+    cout << "2. Subtraction\n";
+    cout << "3. Multiplication\n";
+    cout << "4. Division\n";
+    cout << "5. Sine\n";
+    cout << "6. Cosine\n";
+    cout << "7. Tangent\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            cout << "The sum is: " << add(num1, num2) << endl;
+            break;
+        case 2:
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            cout << "The difference is: " << subtract(num1, num2) << endl;
+            break;
+        case 3:
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            cout << "The product is: " << multiply(num1, num2) << endl;
+            break;
+        case 4:
+            cout << "Enter two numbers: ";
+            cin >> num1 >> num2;
+            if (num2 != 0) {
+                cout << "The quotient is: " << divide(num1, num2) << endl;
+            } else {
+                cout << "Error: Division by zero is not allowed." << endl;
+            }
+            break;
+        case 5:
+            cout << "Enter a number: ";
+            cin >> num1;
+            cout << "The sine is: " << sine(num1) << endl;
+            break;
+        case 6:
+            cout << "Enter a number: ";
+            cin >> num1;
+            cout << "The cosine is: " << cosine(num1) << endl;
+            break;
+        case 7:
+            cout << "Enter a number: ";
+            cin >> num1;
+            cout << "The tangent is: " << tangent(num1) << endl;
+            break;
+        default:
+            cout << "Invalid choice." << endl;
+            break;
+    }
+
+    return 0;
+}
+
+// Defining functions
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int subtract(int a, int b) {
+    return a - b;
+}
+
+int multiply(int a, int b) {
+    return a * b;
+}
+
+double divide(int a, int b) {
+    if (b == 0) {
+        cout << "Error: Division by zero." << endl;
+        return 0;
+    }
+    return static_cast<double>(a) / b;
+}
+
+double sine(double x) {
+    return sin(x);
+}
+
+double cosine(double x) {
+    return cos(x);
+}
+
+double tangent(double x) {
+    return tan(x);
+}
