@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+
+#define N 9
+
+using namespace std;
+
+bool isValidRow(int grid[N][N], int row) {
+    vector<bool> seen(N, false);
+    for (int col = 0; col < N; col++) {
+        int num = grid[row][col];
+        if (num < 1 || num > 9 || seen[num - 1])
+            return false;
+        seen[num - 1] = true;
+    }
+    return true;
+}
+
+bool isValidCol(int grid[N][N], int col) {
+    vector<bool> seen(N, false);
+    for (int row = 0; row < N; row++) {
+        int num = grid[row][col];
+        if (num < 1 || num > 9 || seen[num - 1])
+            return false;
+        seen[num - 1] = true;
+    }
+    return true;
+}
+
+bool isValidBox(int grid[N][N], int startRow, int startCol) {
+    vector<bool> seen(N, false);
+    for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < 3; col++) {
+            int num = grid[row + startRow][col + startCol];
+            if (num < 1 || num > 9 || seen[num - 1])
+                return false;
+            seen[num - 1] = true;
+        }
+    }
+    return true;
+}
+
+bool isValidSudoku(int grid[N][N]) {
+    for (int i = 0; i < N; i++) {
+        if (!isValidRow(grid, i) || !isValidCol(grid, i))
+            return false;
+    }
+
+    for (int row = 0; row < N; row += 3) {
+        for (int col = 0; col < N; col += 3) {
+            if (!isValidBox(grid, row, col))
+                return false;
+        }
+    }
+
+    return true;
+}
+
+void readSudoku(int grid[N][N]) {
+    cout << "Enter the Sudoku grid (9x9), use space or newline between numbers:" << endl;
+    for (int row = 0; row < N; row++) {
+        for (int col = 0; col < N; col++) {
+            cin >> grid[row][col];
+        }
+    }
+}
+
+int main() {
+    int grid[N][N];
+    readSudoku(grid);
+
+    if (isValidSudoku(grid)) {
+        cout << "Sudoku is correct" << endl;
+    } else {
+        cout << "Sudoku is incorrect" << endl;
+    }
+
+    return 0;
+}
