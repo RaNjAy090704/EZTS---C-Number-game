@@ -1,0 +1,138 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct StudentRecord {
+    string name;
+    float grade;
+    string subject;
+};
+
+void addRecord(vector<StudentRecord>& records) {
+    StudentRecord newRecord;
+    cout << "Enter student's name: ";
+    cin.ignore();
+    getline(cin, newRecord.name);
+    cout << "Enter student's grade: ";
+    cin >> newRecord.grade;
+    cout << "Enter student's subject: ";
+    cin.ignore();
+    getline(cin, newRecord.subject);
+    records.push_back(newRecord);
+}
+
+void printRecords(const vector<StudentRecord>& records) {
+    if (records.empty()) {
+        cout << "No records to display." << endl;
+        return;
+    }
+    for (size_t i = 0; i < records.size(); ++i) {
+        cout << "Record " << i + 1 << ":\n";
+        cout << "Name: " << records[i].name << "\n";
+        cout << "Grade: " << records[i].grade << "\n";
+        cout << "Subject: " << records[i].subject << "\n";
+        cout << "----------------------\n";
+    }
+}
+
+void updateRecord(vector<StudentRecord>& records) {
+    if (records.empty()) {
+        cout << "No records to update." << endl;
+        return;
+    }
+    int recordNumber;
+    cout << "Enter the record number to update: ";
+    cin >> recordNumber;
+    if (recordNumber <= 0 || recordNumber > records.size()) {
+        cout << "Invalid record number." << endl;
+        return;
+    }
+    StudentRecord& record = records[recordNumber - 1];
+    cout << "Updating record " << recordNumber << ":\n";
+    cout << "Enter new name (or press Enter to keep current: " << record.name << "): ";
+    cin.ignore();
+    string newName;
+    getline(cin, newName);
+    if (!newName.empty()) {
+        record.name = newName;
+    }
+    cout << "Enter new grade (or -1 to keep current: " << record.grade << "): ";
+    float newGrade;
+    cin >> newGrade;
+    if (newGrade != -1) {
+        record.grade = newGrade;
+    }
+    cout << "Enter new subject (or press Enter to keep current: " << record.subject << "): ";
+    cin.ignore();
+    string newSubject;
+    getline(cin, newSubject);
+    if (!newSubject.empty()) {
+        record.subject = newSubject;
+    }
+    cout << "Record updated." << endl;
+}
+
+void deleteRecord(vector<StudentRecord>& records) {
+    if (records.empty()) {
+        cout << "No records to delete." << endl;
+        return;
+    }
+    int recordNumber;
+    cout << "Enter the record number to delete: ";
+    cin >> recordNumber;
+    if (recordNumber <= 0 || recordNumber > records.size()) {
+        cout << "Invalid record number." << endl;
+        return;
+    }
+    records.erase(records.begin() + recordNumber - 1);
+    cout << "Record deleted." << endl;
+}
+
+void clearRecords(vector<StudentRecord>& records) {
+    records.clear();
+    cout << "All records cleared." << endl;
+}
+
+int main() {
+    vector<StudentRecord> records;
+    int choice;
+    
+    do {
+        cout << "\nStudent Grading System Menu:\n";
+        cout << "1. Add Record\n";
+        cout << "2. Display Records\n";
+        cout << "3. Update Record\n";
+        cout << "4. Delete Record\n";
+        cout << "5. Clear All Records\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        
+        switch (choice) {
+            case 1:
+                addRecord(records);
+                break;
+            case 2:
+                printRecords(records);
+                break;
+            case 3:
+                updateRecord(records);
+                break;
+            case 4:
+                deleteRecord(records);
+                break;
+            case 5:
+                clearRecords(records);
+                break;
+            case 6:
+                cout << "Exiting the program." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 6);
+
+    return 0;
+}
