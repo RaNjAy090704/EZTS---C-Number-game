@@ -1,0 +1,112 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void writeFile(const string &filename) {
+    ofstream outFile(filename);
+
+    if (outFile.is_open()) {
+        outFile << "John Doe\n";
+        outFile << "Jane Smith\n";
+        outFile << "Emily Johnson\n";
+        outFile.close();
+        cout << "Writing to file completed." << endl;
+    } else {
+        cerr << "Unable to open file for writing." << endl;
+    }
+}
+
+void readFile(const string &filename) {
+    ifstream inFile(filename);
+    string line;
+
+    if (inFile.is_open()) {
+        cout << "Reading from file:" << endl;
+        while (getline(inFile, line)) {
+            cout << line << endl;
+        }
+        inFile.close();
+    } else {
+        cerr << "Unable to open file for reading." << endl;
+    }
+}
+
+void updateLine(const string &filename, const string &oldLine, const string &newLine) {
+    ifstream inFile(filename);
+    vector<string> lines;
+    string line;
+
+    if (inFile.is_open()) {
+        while (getline(inFile, line)) {
+            if (line == oldLine) {
+                line = newLine;
+            }
+            lines.push_back(line);
+        }
+        inFile.close();
+    } else {
+        cerr << "Unable to open file for reading." << endl;
+        return;
+    }
+
+    ofstream outFile(filename);
+    if (outFile.is_open()) {
+        for (const auto &l : lines) {
+            outFile << l << "\n";
+        }
+        outFile.close();
+        cout << "File updated successfully." << endl;
+    } else {
+        cerr << "Unable to open file for writing." << endl;
+    }
+}
+
+void deleteLine(const string &filename, const string &lineToDelete) {
+    ifstream inFile(filename);
+    vector<string> lines;
+    string line;
+
+    if (inFile.is_open()) {
+        while (getline(inFile, line)) {
+            if (line != lineToDelete) {
+                lines.push_back(line);
+            }
+        }
+        inFile.close();
+    } else {
+        cerr << "Unable to open file for reading." << endl;
+        return;
+    }
+
+    ofstream outFile(filename);
+    if (outFile.is_open()) {
+        for (const auto &l : lines) {
+            outFile << l << "\n";
+        }
+        outFile.close();
+        cout << "Line deleted successfully." << endl;
+    } else {
+        cerr << "Unable to open file for writing." << endl;
+    }
+}
+
+int main() {
+    string filename = "example.txt";
+
+    writeFile(filename);
+    readFile(filename);
+
+    // Update a line in the file
+    updateLine(filename, "Jane Smith", "Jane Doe");
+    readFile(filename);
+
+  //Delete a line from the file
+  //deleteLine(filename, "Emily Johnson");
+  //readFile(filename);
+
+    return 0;
+}
